@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: kubreg
+  name: kubreg
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: kubreg
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        run: kubreg
+    spec:
+      containers:
+      - image: registry:2
+        name: kubreg
+        ports:
+        - containerPort: 443
+        envFrom:
+        - configMapRef:
+            name: regconf
+        volumeMounts:
+        - name: certsvol
+          mountPath: "/certs"
+        - name: authvol
+          mountPath: "/auth"
+        - name: regvol
+          mountPath: "/var/lib/registry"
+      volumes:
+        - name: certsvol
+          secret:
+            secretName: regcerts
+        - name: authvol
+          secret:
+            secretName: regauth
+        - name: regvol
+          persistentVolumeClaim:
+            claimName: reg-pvc

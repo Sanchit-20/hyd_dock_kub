@@ -1,0 +1,23 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: simple-volume-pod
+spec:
+  volumes:
+  - name: simple-vol
+    emptyDir: {}
+  containers:
+  - name: my-container
+    volumeMounts:
+      - name: simple-vol
+        mountPath: /var/simple
+    image: alpine
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do date >> /var/simple/file.txt; sleep 5; done"]
+  - name: mybb
+    image: yauritux/busybox-curl
+    volumeMounts:
+      - name: simple-vol
+        mountPath: /tmp/mystorage
+    command: ["/bin/sh"]
+    args: ["-c", "sleep 3600"]

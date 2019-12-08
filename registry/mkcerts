@@ -1,0 +1,8 @@
+REGSERVERNAME="st00node01.itgildelab.net"
+
+mkdir -p certs
+cd certs
+
+openssl req -new -sha256 -newkey rsa:4096 -x509 -sha256 \
+ -nodes -days 365 -out ${REGSERVERNAME}.crt -keyout ${REGSERVERNAME}.key \
+ -subj "/C=NL/ST=LB/O=Acme, Inc./CN=${REGSERVERNAME}"

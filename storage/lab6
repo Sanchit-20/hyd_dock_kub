@@ -1,0 +1,35 @@
+
+###
+### LAB 6 - Storage in PODS
+###
+
+1. Creating storage shared between containers in PODS - MTDIR volumes
+
+Create the following POD with one container named my-container running alpine
+
+
+kind: Pod
+apiVersion: v1
+metadata:
+  name: simple-volume-pod
+spec:
+  volumes:
+  - name: simple-vol
+    emptyDir: {}
+  containers:
+  - name: my-container
+    volumeMounts:
+      - name: simple-vol
+        mountPath: /var/simple
+    image: alpine
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do date >> /var/simple/index.html; sleep 2; done"]
+
+2. Check with kubectl exec inside the PODs container to see what happens on the /var/simple filesystem.
+
+3. Extend the POD to include one more container. This container should be called my-web and running the
+   nginx:1.7.1 image. Ensure that this PODs mounts the volume provided by emptyDir on /usr/share/nginx/html.
+
+4. Check using http (e.g. curl, links) from outside if you can see the index.html file.
+
+

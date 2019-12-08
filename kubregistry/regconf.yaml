@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: regconf
+data:
+  REGISTRY_AUTH: "htpasswd"
+  REGISTRY_AUTH_HTPASSWD_REALM: "ITGILDELAB SECURE REGISTRY"
+  REGISTRY_AUTH_HTPASSWD_PATH: "/auth/htpasswd"
+  REGISTRY_HTTP_ADDR: "0.0.0.0:443"
+  REGISTRY_HTTP_TLS_CERTIFICATE: "/certs/st00node01.itgildelab.net.crt"
+  REGISTRY_HTTP_TLS_KEY: "/certs/st00node01.itgildelab.net.key"
+ 

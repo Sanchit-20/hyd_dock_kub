@@ -1,0 +1,16 @@
+REGSERVERNAME="st00node01.itgildelab.net"
+
+sudo docker run -d \
+  --restart=always \
+  --name secregistry \
+  -v ${PWD}/certs:/certs \
+  -v ${PWD}/auth:/auth \
+  -e REGISTRY_AUTH=htpasswd \
+  -e REGISTRY_AUTH_HTPASSWD_REALM="ITGILDELAB SECURE REGISTRY" \
+  -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
+  -e REGISTRY_HTTP_ADDR=0.0.0.0:443 \
+  -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/${REGSERVERNAME}.crt \
+  -e REGISTRY_HTTP_TLS_KEY=/certs/${REGSERVERNAME}.key \
+  -p 443:443 \
+  -v /srv/secregistry:/var/lib/registry \
+  registry:2

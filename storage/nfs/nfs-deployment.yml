@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: nfs-busybox
+  name: nfs-busybox
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: nfs-busybox
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        run: nfs-busybox
+    spec:
+      containers:
+      - image: busybox
+        name: nfs-busybox
+        command:
+          - sh
+          - -c
+          - 'while true; do date > /mnt/index.html; hostname >> /mnt/index.html; sleep $(($RANDOM % 5 + 5)); done'
+        imagePullPolicy: Always
+        volumeMounts:
+          # name must match the volume name below
+          - name: nfs
+            mountPath: "/mnt"
+      volumes:
+      - name: nfs
+        persistentVolumeClaim:
+          claimName: nfs
