@@ -1,0 +1,12 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+     - "5000:5000"
+    image: "compose_web"
+    deploy:
+      replicas: 3
+  redis:
+    image: "redis:alpine"
+
